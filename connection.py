@@ -7,28 +7,32 @@ def connect():
     try:
         # read connection parameters
         host = '127.0.0.1'
-        database = 'sushi_api_db'
+        database = 'iate_api_db'
         username = 'postgres'
         password = 'postgres'
 
         # connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
         conn = psycopg2.connect(database=database, host=host, user=username, password=password)
-
+        print('Connected to the PostgreSQL database.')
         # create a cursor
         cur = conn.cursor()
 
         # execute a statement
         print('PostgreSQL database version:')
 
-        cur.execute('SELECT first_name FROM users LIMIT 1')
+        cur.execute('SELECT id FROM server_activity LIMIT 1')
 
         # display the PostgreSQL database server version
-        db_version = cur.fetchone()
-        print(db_version)
+        result = cur.fetchone()
+
+        print("id:{}".format(result[0]))
 
         # close the communication with the PostgreSQL
         cur.close()
+
+        print('PostgreSQL execution done!')
+
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
